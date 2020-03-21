@@ -23,9 +23,11 @@ class Dashboard extends CI_Controller {
 		if (isset($_SESSION['user_id'])) {
 			# code...
 			//die('Session Set'.$_SESSION['user_id']);
+
 			$this->load->view('adminpanel/dashboard');
 		}
 		else{
+			$this->session->set_flashdata('error', 'No session');
 			redirect('admin/login');
 		}
 		

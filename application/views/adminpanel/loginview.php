@@ -1,46 +1,139 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login User</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://getbootstrap.com/docs/4.4/examples/sign-in/signin.css">
+	<style type="text/css">
+		body
+		{
+			font-family: Times New Roman;
+			background-color:gray;
+			background-image: url('http://localhost/Clockwork/images/LightHouse.jpg');
+			background-repeat:no-repeat;
+			background-size: cover;
+			background-attachment:fixed;
+		}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://getbootstrap.com/docs/4.4/examples/sign-in/signin.css">
-    <title>Login</title>
-  </head>
-  <body>
-    <form class="form-signin" action="<?= base_url().'admin/login/login_post' ?>" method="post">
+		h4
+		{
+			margin:0px;
+			padding:12px 40px;
+			color:red;
+			font-size:30px
+		}
+		#login
+		{
+			padding:10px;
+			text-align:center;
+			width: 400px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
 
-      <?php   
-            if ($error != "NO_ERROR") {
-              echo '<div class="alert alert-danger" role="alert">';
-              echo "$error";
-              echo '</div>';
-            }
+		}
 
-       ?>
+		#login input[type=name], [type=password]
+		{
+			width:250px;
+			border-radius:5px;
+			border:1px solid #ddd;
+			height:25px;
+			padding:5px 10px 5px 40px
+		}
 
-  	  <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-  	  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-  	  <label for="inputEmail" class="sr-only">Username</label>
-  	  <input type="text" name="email" id="inputEmail" class="form-control" placeholder="Username" required="" autofocus="">
-  	  <label for="inputPassword" class="sr-only">Password</label>
-  	  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-  	  <div class="checkbox mb-3">
-  	    <label>
-  	      <input type="checkbox" value="remember-me"> Remember me
-  	    </label>
-  	  </div>
-  	  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  	  <p class="mt-5 mb-3 text-muted">© 2017-2020</p>
-	</form>
+		#login input[type=name]
+		{
+			background-image:url(images/user.png);
+			background-repeat:no-repeat;
+			background-position:10px 10px;
+		}
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
+		#login input[type=password]
+		{
+			background-image:url(images/key.png);
+			background-repeat:no-repeat;
+			background-position:10px 10px;
+		}
+
+		#login input[type=submit]
+		{
+			background-color:red;
+			width:300px;
+			padding:10px;
+			color:white;
+			border: none;
+			cursor: pointer;
+			opacity: 0.9;
+		}
+
+		#login input[type=submit]:hover
+		{
+			opacity: 1;
+		}
+
+		#login p a
+		{
+			text-decoration:none;
+			text-align:center;
+			font-size:1.2em;
+			color:yellow;
+		}
+
+		#login p a:hover
+		{
+			color:red;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+
+<form name="loginfrm" method="post" action="<?= base_url().'admin/login/login_post'?>">
+
+	<div id="login">
+		<h4>Login User</h4>
+		<p><input class="rounded" type="name" placeholder="Enter Name" name="name" required /></p>
+		<p><input type="password" placeholder="Enter Password" name="password" required /></p>
+		<p><input  type="submit" name="loginbtn" value="Sign in"/><p>
+			<?php
+
+			if ($error != "NO_ERROR") {
+				echo '<div class="alert alert-danger" role="alert">';
+				echo "$error";
+				echo '</div>';
+			}
+
+//			if(isset($query)){
+//
+//				foreach ($query->result_array() as $res){
+//					echo $query->num_rows();
+//				}
+//			}
+			?>
+		<p><a href="<?php echo base_url().'admin/login/register'?>">If not account. Please register now!</a></p>
+		<p><a href="<?php echo base_url().'admin/login/forgotpw'?>">Forgot Password?</a></p>
+	</div>
+
+</form>
+
+</body>
+<script type="text/javascript">
+	<?php
+	if (isset($_SESSION['registered'])) {
+		if ($_SESSION['registered']=="Yes") {
+			# code...
+			echo "alert('Register successfully. Please login!');";
+		}
+		else{
+			echo "alert('Register Error!');";
+		}
+	}
+	?>
+</script>
 </html>

@@ -2,23 +2,42 @@
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       
-      <h2>Add Blog</h2>
+      <h2>Add New Room</h2>
       
-      <form enctype="multipart/form-data" action="<?= base_url().'admin/blog/addblog_post' ?>" method="post">
-        
-        <div class="form-group">
-          <input type="text" class="form-control" name="blog_title" placeholder="Title">
-        </div>
+      <form enctype="multipart/form-data" action="<?= base_url().'admin/room/addblog_post' ?>" method="post">
+
+		  <div class="row">
+			  <div class="col-6">
+				  <div class="form-group">
+					  <input type="text" class="form-control" name="roomtitle" placeholder="Room Name">
+				  </div>
+			  </div>
+			  <div class="col-6">
+				  <div class="form-group">
+					  <input type="number" class="form-control" name="price" step="0.01" placeholder="Price(RM)">
+				  </div>
+			  </div>
+		  </div>
+
 
         <div class="form-group">
-          <textarea class="form-control" name="desc" placeholder="Blog Desc"></textarea>
+          <textarea class="form-control" name="desc" placeholder="Room Desc"></textarea>
         </div>
 
-        <div class="form-group">
-          <input type="file" class="form-control" name="file" placeholder="Title">
-        </div>
+		  <div class="form-group">
+			  <textarea class="form-control" name="recomendation" placeholder="Recomendation"></textarea>
+		  </div>
+
+		  <div class="row">
+			  <div class="col-5">
+				  <div class="form-group">
+					  <input type="file" class="form-control" name="file" placeholder="Title">
+				  </div>
+			  </div>
+		  </div>
+
         
-        <button type="submit" class="btn btn-primary">Add Blog</button>
+        <button type="submit" class="btn btn-primary">Add Room</button>
 
 
       </form>

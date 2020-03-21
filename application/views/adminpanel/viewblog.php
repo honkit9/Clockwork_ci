@@ -5,15 +5,17 @@
       <h2>View Blog</h2>
       
       <div class="table-responsive">
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm" style="width: 100%">
           <thead>
             <tr>
-              <th>Sr No</th>
-              <th>Title</th>
-              <th>Desc</th>
-              <th>Image</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th style="width: 10%">Room ID</th>
+              <th style="width: 10%">Name</th>
+              <th style="width: 30%">Summary</th>
+              <th style="width: 10%">Price (RM)</th>
+              <th style="width: 20%">Recommendation</th>
+              <th style="width: 10%">Image</th>
+				<th style="width: 5%"></th>
+				<th style="width: 5%"></th>
             </tr>
           </thead>
           <tbody>
@@ -22,14 +24,16 @@
           		$counter=1;
           		foreach ($result as $key => $value) {
           			echo "<tr>
-			              <td>".$counter."</td>
-			              <td>".$value['blog_title']."</td>
-			              <td>".$value['blog_desc']."</td>
-			              <td><img src='".base_url().$value['blog_img']."' class='img-fluid' width='100'></td>
+			              <td>".$value['Room_ID']."</td>
+			              <td>".$value['Room_Name']."</td>
+			              <td>".$value['Room_Summary']."</td>
+			                    <td>".$value['Room_Price']."</td>
+			                          <td>".$value['Recommendation']."</td>
+			              <td><img src='".base_url().$value['Room_Image']."' class='img-fluid' width='100'></td>
 			              
-			              <td><a class=\"btn btn-info\" href='".base_url().'admin/blog/editblog/1'."'>Edit</a></td>
+			              <td><a class=\"btn btn-info\" href='".base_url().'admin/room/editblog/'.$value['Room_ID']."'>Edit</a></td>
 			              
-			              <td><a class=\"btn delete btn-danger\" href='#.' data-id='".$value['blogid']."'>Delete</a></td>
+			              <td><a class=\"btn delete btn-danger\" href='#.' data-id='".$value['Room_ID']."'>Delete</a></td>
 
 			            </tr>";
 
@@ -87,4 +91,19 @@
 
 		}
 	});
+
+
+	<?php 
+
+			if (isset($_SESSION['updated'])) {
+				if ($_SESSION['updated'] == "yes") {
+					echo 'alert("Data has been updated!");';
+				}else if($_SESSION['updated'] == "no"){
+					echo 'alert("Some error occurred & data not updated!");';
+
+				}
+			}
+
+	 ?>
+
 </script>
