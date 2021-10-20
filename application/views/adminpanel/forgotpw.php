@@ -6,7 +6,9 @@
 </head>
 
 <body>
-
+<?php
+echo form_open('admin/login/forgotpw_post');//to open form
+?>
 <div style="margin:0 auto;	border:1px solid #ddd;	border-radius:10px; width:400px; padding:0px">
 
 	<div id="login-title">
@@ -14,15 +16,18 @@
 	</div>
 
 	<div id="login-form">
-		<form name="passwordfrm" method="post" action="<?=base_url().'admin/login/forgotpw_post'?>">
-			<p><input type="email" name="email" placeholder="Email" required /></p>
+		<form name="passwordfrm" method="post">
+			<p><input type="email" name="receiver" placeholder="Email" required /></p>
 			<p><input type="submit" name="sendbtn" value="Get Code" /></p>
+			<?php echo $this->session->flashdata('email_sent'); //display mail fail or send?>
 		</form>
 	</div>
 
 
 </div>
-
+<?php
+echo form_close();//to close form
+?>
 
 </body>
 
