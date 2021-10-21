@@ -185,7 +185,7 @@
 				Our Room
 			</h2>
 			<p>
-				Giving you the top 6 more attractions rooms and halls.
+				Giving you the top attractions rooms and halls.
 			</p>
 		</div>
 		<div class="row">

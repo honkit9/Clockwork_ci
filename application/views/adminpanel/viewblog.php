@@ -2,7 +2,7 @@
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       
-      <h2>View Blog</h2>
+      <h2>View Rooms</h2>
       
       <div class="table-responsive">
         <table class="table table-striped table-sm" style="width: 100%">
@@ -23,13 +23,18 @@
           	if ($result) {
           		$counter=1;
           		foreach ($result as $key => $value) {
+					  if($value['status']==1){
+						  $published ="text-success";
+					  }else{
+						  $published ="text-danger";
+					  }
           			echo "<tr>
-			              <td>".$value['Room_ID']."</td>
-			              <td>".$value['Room_Name']."</td>
+			              <td style='font-weight: bold' >".$value['Room_ID']."</td>
+			              <td class='$published'>".$value['Room_Name']."</td>
 			              <td>".$value['Room_Summary']."</td>
 			                    <td>".$value['Room_Price']."</td>
 			                          <td>".$value['Recommendation']."</td>
-			              <td><img src='".base_url().$value['Room_Image']."' class='img-fluid' width='100'></td>
+			              <td><a target='_blank' href=".base_url().$value['Room_Image']."><img src='".base_url().$value['Room_Image']."' class='img-fluid' width='100'></a></td>
 			              
 			              <td><a class=\"btn btn-info\" href='".base_url().'admin/room/editblog/'.$value['Room_ID']."'>Edit</a></td>
 			              
@@ -67,14 +72,14 @@
 
 		var delete_id = $(this).attr('data-id');
 
-		var bool = confirm('Are you Sure you want to delete the blog forever?');
+		var bool = confirm('Are you Sure you want to delete the room record forever?');
 		console.log(bool);
 
 		if (bool) {
 			//alert("Move to delete functionality using AJAX");
 
 			$.ajax({
-				url:'<?= base_url().'admin/blog/deleteblog/'?>',
+				url:'<?= base_url().'admin/room/deleteblog/'?>',
 				type:'post',
 				data:{'delete_id': delete_id},
 				success: function(response){
@@ -87,7 +92,7 @@
 				}
 			});
 		}else{
-			alert("Your Blog is Safe");
+			alert("Your Room is Safe");
 
 		}
 	});

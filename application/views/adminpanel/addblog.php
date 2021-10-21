@@ -3,9 +3,8 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       
       <h2>Add New Room</h2>
-      
-      <form enctype="multipart/form-data" action="<?= base_url().'admin/room/addblog_post' ?>" method="post">
 
+		<?php echo form_open_multipart('admin/room/addblog_post'); ?>
 		  <div class="row">
 			  <div class="col-6">
 				  <div class="form-group">
@@ -31,16 +30,30 @@
 		  <div class="row">
 			  <div class="col-5">
 				  <div class="form-group">
-					  <input type="file" class="form-control" name="file" placeholder="Title">
+					  <input type="file" class="form-control" name="file" placeholder="Title" required>
 				  </div>
 			  </div>
 		  </div>
 
-        
-        <button type="submit" class="btn btn-primary">Add Room</button>
+
+        <button type="submit" class="btn btn-primary" name="addbtn" >Add Room</button>
+		<div class="mt-3"></div>
+		<?php
+
+		if (isset($error)) {
+			if ($error != "NO_ERROR") {
+				echo '<div class="alert alert-danger" role="alert">';
+				echo "$error";
+				echo '</div>';
+			}
+		}
 
 
-      </form>
+		?>
+		<?php
+		echo validation_errors();
+		?>
+<!--      </form>-->
 
     </main>
   </div>

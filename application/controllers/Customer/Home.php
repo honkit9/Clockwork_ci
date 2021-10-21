@@ -4,7 +4,7 @@ class Home extends CI_Controller
 {
 	public function index(){
 		$this->load->model('Room_Model');
-		$data['rooms'] = $this->Room_Model->getRooms();
+		$data['rooms'] = $this->Room_Model->getPublishedRooms();
 
 //		print_r($test);
 		$this->load->view('Customer/homeview',$data);

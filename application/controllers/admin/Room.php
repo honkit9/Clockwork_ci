@@ -21,9 +21,14 @@ class Room extends CI_Controller {
 	public function index()
 	{
 		if (isset($_SESSION['user_id'])) {
-			$this->load->model('Room_Model');
-			$data['result'] = $this->Room_Model->getRooms();
-			$this->load->view('adminpanel/viewblog', $data);
+			if (isset($_SESSION['role1']) || isset($_SESSION['role3']) ) {
+
+				$this->load->model('Room_Model');
+				$data['result'] = $this->Room_Model->getRooms();
+				$this->load->view('adminpanel/viewblog', $data);
+			}else{
+				show_error('Please contact admin for more info',404,'Access Forbidden');
+			}
 		}else{
 			$this->session->set_flashdata('error', 'Login First !');
 			redirect('admin/login');
@@ -32,7 +37,44 @@ class Room extends CI_Controller {
 
 	function addblog(){
 		if (isset($_SESSION['user_id'])) {
-			$this->load->view('adminpanel/addblog');
+			if (isset($_SESSION['role1']) ) {
+
+
+				$this->load->helper(array('form', 'url'));
+				$this->load->library('form_validation');
+
+
+				//set error message prefix tag
+				$this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
+				//name validation
+				$this->form_validation->set_rules('roomtitle', 'room title', 'is_unique[room.Room_Name]|required|min_length[3]|max_length[20]',
+					array('is_unique' => 'This %s already exists.',
+						'required' => 'You must provide a %s.'));
+
+				//price validation
+				$this->form_validation->set_rules('price', 'room price', 'required',
+					array('required' => 'You must provide a %s.'));
+
+				//desc validation
+				$this->form_validation->set_rules('desc', 'room summary', 'required|min_length[3]|max_length[50]',
+					array('required' => 'You must provide a %s.'));
+
+				//recommendation validation
+				$this->form_validation->set_rules('recomendation', 'room recommendation', 'required|min_length[3]|max_length[50]',
+					array('required' => 'You must provide a %s.'));
+
+				//image validation
+//				$this->form_validation->set_rules('file', 'room image', 'required',
+//					array('required' => 'You must provide a %s.'));
+
+				if ($this->form_validation->run() == FALSE) {
+					$this->load->view('adminpanel/addblog');
+				} else {
+					//addblog_post
+				}
+			}else{
+				show_error('Please contact admin for more info',404,'Access Forbidden');
+			}
 		}else{
 			$this->session->set_flashdata('error', 'Login First !');
 			redirect('admin/login');
@@ -40,56 +82,70 @@ class Room extends CI_Controller {
 	}
 
 	function addblog_post(){
-		/*print_r($_POST);
-		print_r($_FILES);*/
+		$this->load->helper(array('form', 'url'));
+		$this->load->library('form_validation');
 
-		if ($_FILES) {
-			//Image is Passed for Upload
-			$config['upload_path']          = './assets/upload/roomimg/';
-            $config['allowed_types']        = 'jpg|png|jpeg';
-            
+		//set error message prefix tag
+		$this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
 
-            $this->load->library('upload', $config);
+		//name validation
+		$this->form_validation->set_rules('roomtitle', 'room title', 'is_unique[room.Room_Name]|required|min_length[3]|max_length[20]',
+			array('is_unique' => 'This %s already exists.',
+				'required' => 'You must provide a %s.'));
 
-            if ( ! $this->upload->do_upload('file'))
-            {
-                    $error = array('error' => $this->upload->display_errors());
+		//price validation
+		$this->form_validation->set_rules('price', 'room price', 'required',
+			array('required' => 'You must provide a %s.'));
 
-                    die($error);
-                    //$this->load->view('upload_form', $error);
-            }
-            else
-            {
-                    $data = array('upload_data' => $this->upload->data());
+		//desc validation
+		$this->form_validation->set_rules('desc', 'room summary', 'required|min_length[3]|max_length[50]',
+			array('required' => 'You must provide a %s.'));
 
-/*                    echo "<pre>";
-                    print_r($data);
-                    echo $data['upload_data']['file_name'];
-*/					
-                    $fileurl = "assets/upload/roomimg/".$data['upload_data']['file_name'];
-                    $title = $_POST['roomtitle'];
-                    $desc = $_POST['desc'];
+		//recommendation validation
+		$this->form_validation->set_rules('recomendation', 'room recommendation', 'required|min_length[3]|max_length[50]',
+			array('required' => 'You must provide a %s.'));
+
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('adminpanel/addblog');
+		} else {
+			if ($_FILES) {
+				//Image is Passed for Upload
+				$config['upload_path'] = './assets/upload/roomimg/';
+				$config['allowed_types'] = 'jpg|png|jpeg';
+				$new_name = time() . $_FILES["file"]['name'];
+				$config['file_name'] = $new_name;
+
+				$this->load->library('upload', $config);
+
+				if (!$this->upload->do_upload('file')) {
+					$error = array('error' => $this->upload->display_errors());
+
+					print_r($error);
+				} else {
+					$data = array('upload_data' => $this->upload->data());
+					$fileurl = "assets/upload/roomimg/" . $data['upload_data']['file_name'];
+					$title = $_POST['roomtitle'];
+					$desc = $_POST['desc'];
 					$price = $_POST['price'];
 					$recommendation = $_POST['recomendation'];
 
 
-                    $query = $this->db->query("INSERT INTO `room`( `Room_Name`, `Room_Summary`, `Room_Price`,`Recommendation`,`Room_Image`)
+					$query = $this->db->query("INSERT INTO `room`( `Room_Name`, `Room_Summary`, `Room_Price`,`Recommendation`,`Room_Image`)
  							VALUES ('$title','$desc','$price','$recommendation','$fileurl')");
 
-                    if ($query) {
-                    	$this->session->set_flashdata('inserted', 'yes');
-                    	redirect('admin/room/addblog');
-                    }
-                    else{
-                    	$this->session->set_flashdata('inserted', 'no');
-                    	redirect('admin/room/addblog');
-                    }
-                    //$this->load->view('upload_success', $data);
-            }
-		}else{
-			// Image is not passed
+					if ($query) {
+						$this->session->set_flashdata('inserted', 'yes');
+						redirect('admin/room/');
+					} else {
+						$this->session->set_flashdata('inserted', 'no');
+						redirect('admin/room/addblog');
+					}
+				}
+			} else {
+				// Image is not passed
+			}
 		}
-
 	}
 
 
@@ -97,11 +153,15 @@ class Room extends CI_Controller {
 		//print_r($blog_id);
 
 		if (isset($_SESSION['user_id'])) {
-			$this->load->model('Room_Model');
-			$data['result'] = $this->Room_Model->getRooms();
-			$data['roomid'] = $roomid;
+			if (isset($_SESSION['role1']) ) {
+				$this->load->model('Room_Model');
+				$data['result'] = $this->Room_Model->getRoomDetail($roomid);
+				$data['roomid'] = $roomid;
+				$this->load->view("adminpanel/editblog", $data);
+			}else{
+				show_error('Please contact admin for more info',404,'Access Forbidden');
 
-			$this->load->view("adminpanel/editblog", $data);
+			}
 		}else{
 			$this->session->set_flashdata('error', 'Login First !');
 			redirect('admin/login');
@@ -180,11 +240,9 @@ class Room extends CI_Controller {
 		}
 	}
 	function deleteblog(){
-		//print_r($_POST);
-
 		$delete_id = $_POST['delete_id'];
 
-		$qu = $this->db->query("DELETE FROM `articles` WHERE `blogid`='$delete_id'");
+		$qu = $this->db->query("DELETE FROM `room` WHERE `Room_ID`='$delete_id'");
 
 		if ($qu) {
 			echo "deleted";
@@ -192,7 +250,7 @@ class Room extends CI_Controller {
 			echo "notdeleted";
 		}
 
-		//$this->
+//
 
 	}
 

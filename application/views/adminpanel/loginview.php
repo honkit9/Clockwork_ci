@@ -109,12 +109,6 @@
 				echo '</div>';
 			}
 
-//			if(isset($query)){
-//
-//				foreach ($query->result_array() as $res){
-//					echo $query->num_rows();
-//				}
-//			}
 			?>
 		<p><a href="<?php echo base_url().'admin/login/register'?>">If not account. Please register now!</a></p>
 		<p><a href="<?php echo base_url().'admin/login/forgotpw'?>">Forgot Password?</a></p>

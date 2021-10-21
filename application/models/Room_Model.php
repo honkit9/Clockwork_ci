@@ -14,6 +14,11 @@ class Room_Model extends CI_Model
 		return $query->result_array();
 	}
 
+	public function getPublishedRooms(){
+		$query = $this->db->where('status',1)->order_by('Room_ID','Desc')->get('room');
+		return $query->result_array();
+	}
+
 	public function getRoomDetail($roomid){
 		$query = $this->db->where('Room_ID',$roomid)->get('room');
 		return $query->result_array();

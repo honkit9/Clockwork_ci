@@ -102,9 +102,12 @@
 </head>
 <body>
 
-<div style="margin:0 auto;	border:1px solid #ddd;	border-radius:10px; width:450px; padding:0px">
+<div  style="margin:0 auto;	border:1px solid #ddd;	border-radius:10px; width:450px; padding:0px">
 
-	<form name="registrationfrm" method="post" action="<?= base_url() . 'admin/login/register_post' ?>">
+<!--	<form name="registrationfrm" method="post" action="--><?//= base_url() . 'admin/login/register_post' ?><!--">-->
+
+
+	<?php echo form_open('admin/login/register'); ?>
 		<div id="registration">
 			<h1>Registration User</h1>
 			<?php
@@ -117,6 +120,10 @@
 				}
 			}
 
+
+			?>
+			<?php
+				echo validation_errors();
 			?>
 			<p>Please fill up the information below.</p>
 			<hr>
@@ -132,7 +139,9 @@
 			<input type="email" placeholder="Enter Email" name="email"/>
 
 			<p><b>Password</b></p>
-			<input type="password" placeholder="Enter Password" id="psw" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
+			<input type="password" placeholder="Enter Password" id="psw" name="password"/>
+<!--				   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required-->
+
 			<div id="message">
 				<h3>Password must contain the following:</h3>
 				<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
@@ -148,7 +157,7 @@
 
 			<p>Already have an account? <a href="<?= base_url() . 'admin/login/' ?>">Sign in</a>.</p>
 		</div>
-	</form>
+<!--	</form>-->
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
